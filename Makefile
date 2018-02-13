@@ -1,13 +1,20 @@
 NAME=minishell
 CC=gcc
-CFLAGS=-Wall -Wextra -Werror
+CFLAGS=-Wall -Wextra -Werror -fsanitize=address
 INCLUDES=-Iincludes/ -Ilibft/includes/
-SRCDIR=srcs/
 LIBDIR=libft/
 
 LIB=$(addprefix $(LIBDIR), libft.a)
-SRC=$(addprefix $(SRCDIR), \
-		main.c)
+SRC=	srcs/main.c \
+		srcs/ft_getenv.c \
+		srcs/findenv.c \
+		srcs/ft_setenv.c \
+		srcs/getpath.c \
+		srcs/process_input.c \
+		srcs/echo.c \
+		srcs/deltab.c \
+		srcs/is_builtin.c \
+		srcs/prompt.c
 OBJ=$(SRC:.c=.o)
 
 all: $(NAME)

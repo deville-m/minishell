@@ -1,37 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/28 11:10:46 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/13 17:51:50 by mdeville         ###   ########.fr       */
+/*   Created: 2018/02/13 16:14:48 by mdeville          #+#    #+#             */
+/*   Updated: 2018/02/13 16:24:54 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
-#include "minishell.h"
 #include "ft_printf.h"
-#include "get_next_line.h"
-#include "ft_string.h"
 
-int	main(int argc, char **argv)
+void echo(char **split)
 {
-	char	*line;
+	size_t i;
 
-	(void)argc;
-	while (42)
-	{
-		prompt();
-		get_next_line(0, &line);
-		if (!process_input(line, argv))
-		{
-			free(line);
-			break ;
-		}
-		free(line);
-	}
-	return (0);
+	if (!split[1])
+		ft_printf("\n");
+	i = 1;
+	while(split[i + 1])
+		ft_printf("%s ", split[i++]);
+	ft_printf("%s\n", split[i]);
 }

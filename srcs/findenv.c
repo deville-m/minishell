@@ -1,37 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   findenv.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/28 11:10:46 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/13 17:51:50 by mdeville         ###   ########.fr       */
+/*   Created: 2018/02/13 18:48:39 by mdeville          #+#    #+#             */
+/*   Updated: 2018/02/13 19:08:17 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
 #include "minishell.h"
-#include "ft_printf.h"
-#include "get_next_line.h"
 #include "ft_string.h"
 
-int	main(int argc, char **argv)
+char	**findenv(char **environ, const char *envname)
 {
-	char	*line;
-
-	(void)argc;
-	while (42)
+	while (*environ)
 	{
-		prompt();
-		get_next_line(0, &line);
-		if (!process_input(line, argv))
-		{
-			free(line);
-			break ;
-		}
-		free(line);
+		if (ft_strnequ(*environ, envname, ft_strlen(envname)))
+			return (environ);
+		environ++;
 	}
-	return (0);
+	return (NULL);
 }

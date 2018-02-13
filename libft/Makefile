@@ -6,17 +6,19 @@
 #    By: tvallee <tvallee@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/12/10 14:41:44 by tvallee           #+#    #+#              #
-#    Updated: 2018/02/12 16:00:31 by mdeville         ###   ########.fr        #
+#    Updated: 2018/02/13 13:39:41 by mdeville         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME            = libft.a
+CC              = clang
 CFLAGS         += -Wall -Wextra -Werror
 SRCDIR          = srcs/
 OBJDIR          = .obj/
 INCDIR          = includes/
 AR              = ar
 ARFLAGS         = -rcs
+RM              = rm
 
 # set the suffix list explicitly
 .SUFFIXES:

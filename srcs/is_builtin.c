@@ -1,37 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   is_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/28 11:10:46 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/13 17:51:50 by mdeville         ###   ########.fr       */
+/*   Created: 2018/02/13 16:02:21 by mdeville          #+#    #+#             */
+/*   Updated: 2018/02/13 20:06:04 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
 #include "minishell.h"
 #include "ft_printf.h"
-#include "get_next_line.h"
 #include "ft_string.h"
 
-int	main(int argc, char **argv)
+int	is_builtin(char **split)
 {
-	char	*line;
-
-	(void)argc;
-	while (42)
+	if (ft_strequ(split[0], "echo"))
+		echo(split);
+	else if (ft_strequ(split[0], "setenv"))
 	{
-		prompt();
-		get_next_line(0, &line);
-		if (!process_input(line, argv))
-		{
-			free(line);
-			break ;
-		}
-		free(line);
+		if (split[1] && split[2])
+			ft_setenv(split[1], split[2], 1);
+		else
+			ft_fprintf(2, "usage: setenv envname enval\n");
 	}
-	return (0);
+	else
+		return (0);
+	/*
+	else if (ft_strequ(split[0], "cd"))
+	else if (ft_strequ(split[0], "unsetenv"))*/
+	return (1);
 }
