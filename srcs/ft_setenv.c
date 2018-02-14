@@ -6,7 +6,7 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 18:39:55 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/14 15:14:10 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/02/14 17:39:14 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char		**ft_setenv(
 	if (ft_strchr(envname, '='))
 		return (environ);
 	envsize[0] = ft_strlen(envname);
-	envsize[1] = ft_strlen(enval);;
+	envsize[1] = ft_strlen(enval);
 	if (!(slot = findenv(environ, envname)))
 	{
 		environ = new_slot(environ, envname, enval);

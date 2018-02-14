@@ -6,7 +6,7 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 14:49:08 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/14 14:55:17 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/02/14 19:00:24 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,30 @@
 #include "ft_string.h"
 #include "ft_printf.h"
 
+static int	is_exit(char *input, char **env)
+{
+	if (!input)
+		return (0);
+	while (*input == ' ')
+		input++;
+	if (ft_strnequ(input, "exit", 4) && (!input[4] || input[4] == ' '))
+	{
+		deltab(env);
+		return (1);
+	}
+	else
+		return (0);
+}
+
 char		**process_input(char *input, char **av, char **env)
 {
 	int			pid;
 	char		**split;
 	char		*bin_path;
 
-	if (!(split = ft_strsplit(input, ' ')))
+	if (is_exit(input, env))
+		return (NULL);
+	if (!(split = ft_strsplit(input, ' ')) || !split[0])
 		return (env);
 	if (is_builtin(split, &env))
 		return (env);

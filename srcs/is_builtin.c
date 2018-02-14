@@ -6,7 +6,7 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 16:02:21 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/14 15:31:19 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/02/14 18:20:48 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	is_builtin(char **split, char ***env)
 	{
 		if (split[1] && split[2])
 			*env = ft_setenv(*env, split[1], split[2], 1);
+		else if (split[1] && !split[2])
+			*env = ft_setenv(*env, split[1], "", 1);
 		else
 			ft_fprintf(2, "usage: setenv envname enval\n");
 	}
@@ -34,8 +36,9 @@ int	is_builtin(char **split, char ***env)
 	}
 	else if (ft_strequ(split[0], "env"))
 		ft_env(split, *env);
+	else if (ft_strequ(split[0], "cd"))
+		*env = ft_cd(split[1], *env);
 	else
 		return (0);
-	/*else if (ft_strequ(split[0], "cd"))*/
 	return (1);
 }

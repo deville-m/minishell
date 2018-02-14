@@ -6,7 +6,7 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 11:10:46 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/14 14:52:00 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/02/14 18:50:57 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,9 @@ int	main(int argc, char **argv)
 	env = copyenv();
 	while (42)
 	{
-		prompt();
+		prompt(env);
 		get_next_line(0, &line);
-		if ((ft_strnequ(line, "exit", 4) && (!line[4] || line[4] == ' '))
-			|| !(env = process_input(line, argv, env)))
+		if (!(env = process_input(line, argv, env)))
 		{
 			free(line);
 			break ;
