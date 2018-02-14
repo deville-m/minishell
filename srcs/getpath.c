@@ -6,7 +6,7 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 16:29:01 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/13 18:28:29 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/02/14 14:12:20 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ char	*find_bin(char *bin_name, char **split)
 	return (NULL);
 }
 
-char	*getpath(char *bin_name)
+char	*getpath(char *bin_name, char **env)
 {
 	char	**split;
 	char	*path;
 
-	if (!(path = getenv("PATH")))
+	if (!(path = ft_getenv("PATH", env)))
 		return (NULL);
 	if (!*path)
 		return (curr_dir(bin_name));

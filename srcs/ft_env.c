@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_getenv.c                                        :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/13 14:28:36 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/14 14:07:48 by mdeville         ###   ########.fr       */
+/*   Created: 2018/02/14 14:17:12 by mdeville          #+#    #+#             */
+/*   Updated: 2018/02/14 14:19:30 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include "ft_string.h"
+#include "ft_printf.h"
 
-char	*ft_getenv(char *key, char **environ)
+void	ft_env(char **split, char **env)
 {
-	while (*environ)
-	{
-		if (ft_strnequ(*environ, key, ft_strlen(key)))
-			return (*environ + ft_strlen(key) + 1);
-		environ++;
-	}
-	return (NULL);
+	(void)split;
+	while (*env)
+		ft_printf("%s\n", *env++);
 }

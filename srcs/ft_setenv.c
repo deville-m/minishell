@@ -6,35 +6,19 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 18:39:55 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/13 20:11:06 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/02/14 15:14:10 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include <stdlib.h>
 #include "minishell.h"
 #include "memory.h"
 #include "ft_string.h"
 
-int		replace_slot(
-					char **slot,
-					const char *envname,
-					const char *enval,
-					size_t envsize[])
-{
-	if (!(*slot = (char *)malloc(sizeof(char) * (envsize[0] + envsize[1] + 2))))
-		return (-1);
-	ft_strcpy(*slot, envname);
-	(*slot)[envsize[0]] = '=';
-	ft_strcpy(*slot + envsize[0] + 1, enval);
-	return (0);
-}
-
-int		new_slot(
+static char	**new_slot(
 				char **environ,
 				const char *envname,
-				const char *enval,
-				size_t envsize[])
+				const char *enval)
 {
 	char		**newenv;
 	size_t		i;
@@ -42,36 +26,46 @@ int		new_slot(
 	i = 0;
 	while (environ[i])
 		++i;
-	if (!(newenv = (char **)malloc(sizeof(char *) * (++i + 1))))
-		return (-1);
-	newenv[i] = NULL;
+	if (!(newenv = (char **)malloc(sizeof(char *) * (i + 2))))
+		return (NULL);
+	newenv[i + 1] = NULL;
 	ft_memcpy(newenv, environ, sizeof(char *) * i);
-	if (replace_slot(newenv + i, envname, enval, envsize) == -1)
-		return (-1);
-	free(environ);
-	environ = newenv;
-	return (0);
+	if (!(newenv[i] = ft_strnjoin(3, envname, "=", enval)))
+	{
+		deltab(newenv);
+		return (NULL);
+	}
+	return (newenv);
 }
 
-int		ft_setenv(const char *envname, const char *enval, int overwrite)
+char		**ft_setenv(
+				char **environ,
+				const char *envname,
+				const char *enval,
+				int overwrite)
 {
-	extern char	**environ;
 	char		**slot;
 	size_t		envsize[2];
 
+	if (!environ)
+		return (environ);
 	if (ft_strchr(envname, '='))
-		return (-1);
+		return (environ);
 	envsize[0] = ft_strlen(envname);
 	envsize[1] = ft_strlen(enval);;
 	if (!(slot = findenv(environ, envname)))
-		return (new_slot(environ, envname, enval, envsize));
+	{
+		environ = new_slot(environ, envname, enval);
+		return (environ);
+	}
 	if (!overwrite)
-		return (0);
+		return (environ);
 	if (ft_strlen(*slot) >= envsize[0] + envsize[1] + 1)
 	{
 		ft_strcpy(*slot + envsize[0] + 1, enval);
-		return (0);
+		return (environ);
 	}
 	free(*slot);
-	return (replace_slot(slot, envname, enval, envsize));
+	*slot = ft_strnjoin(3, envname, "=", enval);
+	return (environ);
 }

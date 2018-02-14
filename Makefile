@@ -8,7 +8,9 @@ LIB=$(addprefix $(LIBDIR), libft.a)
 SRC=	srcs/main.c \
 		srcs/ft_getenv.c \
 		srcs/findenv.c \
+		srcs/ft_env.c \
 		srcs/ft_setenv.c \
+		srcs/ft_unsetenv.c \
 		srcs/getpath.c \
 		srcs/process_input.c \
 		srcs/echo.c \
