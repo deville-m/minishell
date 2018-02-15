@@ -6,7 +6,7 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 18:39:55 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/14 17:39:14 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/02/15 18:31:36 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,57 +15,52 @@
 #include "memory.h"
 #include "ft_string.h"
 
-static char	**new_slot(
-				char **environ,
-				const char *envname,
-				const char *enval)
+static int	new_env(char ***environ, const char *name, const char *val)
 {
 	char		**newenv;
 	size_t		i;
 
 	i = 0;
-	while (environ[i])
+	while ((*environ)[i])
 		++i;
 	if (!(newenv = (char **)malloc(sizeof(char *) * (i + 2))))
-		return (NULL);
+		return (-1);
 	newenv[i + 1] = NULL;
-	ft_memcpy(newenv, environ, sizeof(char *) * i);
-	if (!(newenv[i] = ft_strnjoin(3, envname, "=", enval)))
+	ft_memcpy(newenv, *environ, sizeof(char *) * i);
+	if (!(newenv[i] = ft_strnjoin(3, name, "=", val)))
 	{
 		deltab(newenv);
-		return (NULL);
+		return (-1);
 	}
-	return (newenv);
+	*environ = newenv;
+	return (0);
 }
 
-char		**ft_setenv(
-				char **environ,
-				const char *envname,
-				const char *enval,
-				int overwrite)
+int			ft_setenv(const char *name, const char *val, int overwrite)
 {
-	char		**slot;
-	size_t		envsize[2];
+	extern t_shell	sh;
+	char			*slot;
+	size_t			namesize;
+	int				offset;
 
-	if (!environ)
-		return (environ);
-	if (ft_strchr(envname, '='))
-		return (environ);
-	envsize[0] = ft_strlen(envname);
-	envsize[1] = ft_strlen(enval);
-	if (!(slot = findenv(environ, envname)))
+	if (!sh.env || !name || ft_strchr(name, '='))
+		return (-1);
+	if (!(slot = findenv(name, &offset)))
+		return (new_env(&sh.env, name, val));
+	if (!val)
 	{
-		environ = new_slot(environ, envname, enval);
-		return (environ);
+		slot[ft_strlen(name) + 1] = '\0';
+		return (0);
 	}
-	if (!overwrite)
-		return (environ);
-	if (ft_strlen(*slot) >= envsize[0] + envsize[1] + 1)
+	namesize = ft_strlen(name);
+	if (ft_strlen(slot) >= namesize + ft_strlen(val) + 1)
 	{
-		ft_strcpy(*slot + envsize[0] + 1, enval);
-		return (environ);
+		ft_strcpy(slot + namesize + 1, val);
+		return (0);
 	}
-	free(*slot);
-	*slot = ft_strnjoin(3, envname, "=", enval);
-	return (environ);
+	free(slot);
+	if (!(sh.env[offset] = ft_strnjoin(3, name, "=", val)))
+		return (-1);
+	else
+		return (0);
 }

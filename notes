@@ -1,0 +1,13 @@
+init_shell.c
+prompt.c
+is_builtin.c
+getpath.c
+ft_setenv.c
+ft_unsetenv.c
+ft_getenv.c
+ft_exit.c
+ft_env.c
+ft_echo.c
+ft_cd.c
+findenv.c
+deltab.c

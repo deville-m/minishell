@@ -6,35 +6,38 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/14 15:22:31 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/14 15:30:28 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/02/15 18:30:21 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "minishell.h"
 
-char	**ft_unsetenv(char **env, const char *envname)
+int		ft_unsetenv(const char *name)
 {
-	char	**newenv;
-	char	**slot;
-	size_t	i;
-	size_t	j;
+	extern t_shell	sh;
+	char			**newenv;
+	char			*slot;
+	int				i;
+	int				j;
 
-	if (!(slot = findenv(env, envname)))
-		return (env);
+	if (!name || !(slot = findenv(name, &j)))
+		return (0);
 	i = 0;
-	while (env[i])
+	while (sh.env[i])
 		++i;
 	if (!(newenv = (char **)malloc(sizeof(char *) * i)))
-		return (env);
-	i = 0;
+		return (-1);
+	i = -1;
 	j = 0;
-	while (env[i])
+	while (sh.env[++i])
 	{
-		if (env[i] != *slot)
-			newenv[j++] = env[i];
-		++i;
+		if (sh.env[i] == slot)
+			newenv[j++] = sh.env[i];
 	}
-	newenv[j] = NULL;
-	return (newenv);
+	newenv[i] = NULL;
+	free(sh.env);
+	free(slot);
+	sh.env = newenv;
+	return (0);
 }

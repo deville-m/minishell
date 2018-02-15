@@ -1,38 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/13 13:44:41 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/15 18:30:59 by mdeville         ###   ########.fr       */
+/*   Created: 2018/02/15 15:28:02 by mdeville          #+#    #+#             */
+/*   Updated: 2018/02/15 17:42:13 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include <stdlib.h>
 #include "minishell.h"
 #include "ft_string.h"
-#include "ft_printf.h"
-#include "path.h"
 
-void	prompt(void)
+int		init_shell(void)
 {
-	char		*tmp;
-	static char	user[100] = "";
+	extern char		**environ;
+	extern t_shell	sh;
+	size_t			i;
 
-	if (!*user && (tmp = ft_getenv("USER")))
+	while (environ[i])
+		++i;
+	if (!(sh.env = (char **)malloc(sizeof(char *) * (i + 1))))
+		return (0);
+	i = 0;
+	while (environ[i])
 	{
-		ft_strncpy(user, tmp, 100);
-		user[99] = '\0';
+		ft_strcpy(sh.env[i], environ[i]);
+		++i;
 	}
-	if ((tmp = ft_getenv("PWD")))
-		ft_printf("[%s] %s $> ", ft_basename(tmp), user);
-	else if ((tmp = getcwd(NULL, 0)))
-	{
-		ft_printf("[%s] %s $> ", ft_basename(tmp), user);
-		free(tmp);
-	}
-	else
-		ft_printf("[No Directory] %s $> ", user);
+	sh.env[i] = NULL;
+	sh.commands = NULL;
+	sh.current = NULL;
+	return (1);
 }

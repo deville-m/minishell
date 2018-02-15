@@ -6,7 +6,7 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/14 16:17:45 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/14 18:19:40 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/02/15 17:16:17 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,28 @@
 #include "minishell.h"
 #include "ft_printf.h"
 
-static char		**update_pwd(char *olddir, char **env)
+static void		update_pwd(char *olddir)
 {
 	char *curr;
 
 	curr = getcwd(NULL, 0);
-	env = ft_setenv(env, "OLDPWD", olddir, 1);
-	env = ft_setenv(env, "PWD", curr, 1);
+	if (!curr
+		|| !olddir
+		|| ft_setenv("OLDPWD", olddir, 1)
+		|| ft_setenv("PWD", curr, 1))
+		ft_fprintf(2, "cd: cannot update env\n");
 	free(curr);
-	return (env);
 }
 
-char			**ft_cd(char *directory, char **env)
+void			ft_cd(char *directory)
 {
-	struct stat tmp;
+	struct stat	tmp;
 	char		*olddir;
 
 	if (!directory)
-		directory = ft_getenv("HOME", env);
+		directory = ft_getenv("HOME");
 	else if (*directory == '-')
-		directory = ft_getenv("OLDPWD", env);
+		directory = ft_getenv("OLDPWD");
 	if (!directory || access(directory, F_OK))
 		ft_printf("cd: no such file or directory: %s\n", directory);
 	else if (stat(directory, &tmp) || !S_ISDIR(tmp.st_mode))
@@ -43,9 +45,9 @@ char			**ft_cd(char *directory, char **env)
 	else
 	{
 		olddir = getcwd(NULL, 0);
-		chdir(directory);
-		env = update_pwd(olddir, env);
+		if (chdir(directory))
+			ft_fprintf(2, "cd: cannot change directory: %s\n", directory);
+		update_pwd(olddir);
 		free(olddir);
 	}
-	return (env);
 }

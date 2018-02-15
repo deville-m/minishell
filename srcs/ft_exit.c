@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/13 16:14:48 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/14 19:29:47 by mdeville         ###   ########.fr       */
+/*   Created: 2018/02/15 17:20:19 by mdeville          #+#    #+#             */
+/*   Updated: 2018/02/15 17:22:30 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include <stdlib.h>
+#include "minishell.h"
 
-void echo(char **split)
+void	ft_exit(void)
 {
-	size_t i;
+	extern t_shell sh;
 
-	if (!split[1])
-	{
-		ft_printf("\n");
-		return ;
-	}
-	i = 1;
-	while(split[i + 1])
-		ft_printf("%s ", split[i++]);
-	ft_printf("%s\n", split[i]);
+	deltab(sh.env);
+	deltab(sh.commands);
+	deltab(sh.current);
+	exit(0);
 }
