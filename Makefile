@@ -1,6 +1,6 @@
 NAME=minishell
 CC=gcc
-CFLAGS=-Wall -Wextra -Werror -fsanitize=address
+CFLAGS=-Wall -Wextra -Werror -g
 INCLUDES=-Iincludes/ -Ilibft/includes/
 LIBDIR=libft/
 
@@ -9,6 +9,7 @@ SRC=	srcs/main.c \
 		srcs/ft_getenv.c \
 		srcs/findenv.c \
 		srcs/ft_cd.c \
+		srcs/signal_handler.c \
 		srcs/ft_env.c \
 		srcs/ft_setenv.c \
 		srcs/ft_unsetenv.c \

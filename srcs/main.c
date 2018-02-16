@@ -6,7 +6,7 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 11:10:46 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/14 18:50:57 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/02/16 15:43:44 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "get_next_line.h"
 #include "ft_string.h"
 
-static char **copyenv()
+static char	**copyenv(void)
 {
 	char		**res;
 	extern char	**environ;
@@ -38,24 +38,28 @@ static char **copyenv()
 	return (res);
 }
 
-int	main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
+	int			eof;
 	char		*line;
-	char		**env;
+	extern char	**g_env;
 
 	(void)argc;
-	env = copyenv();
+	g_env = copyenv();
 	while (42)
 	{
-		prompt(env);
-		get_next_line(0, &line);
-		if (!(env = process_input(line, argv, env)))
+		prompt(g_env);
+		signal(SIGINT, signal_handler);
+		eof = !get_next_line(0, &line);
+		if (!(g_env = process_input(line, argv, g_env)))
 		{
 			free(line);
 			break ;
 		}
 		free(line);
+		if (eof)
+			break ;
 	}
-	deltab(env);
+	deltab(g_env);
 	return (0);
 }

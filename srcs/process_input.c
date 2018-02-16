@@ -6,10 +6,11 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 14:49:08 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/14 19:30:35 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/02/16 15:08:54 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <signal.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include "minishell.h"
@@ -33,7 +34,7 @@ static int	is_exit(char *input, char **env)
 
 char		**process_input(char *input, char **av, char **env)
 {
-	int			pid;
+	extern int	g_pid;
 	char		**split;
 	char		*bin_path;
 
@@ -47,13 +48,13 @@ char		**process_input(char *input, char **av, char **env)
 		ft_fprintf(2, "%s: command not found: %s\n", av[0], split[0]);
 	else if (access(bin_path, X_OK) == -1)
 		ft_fprintf(2, "%s: permission denied: %s\n", av[0], split[0]);
-	else if ((pid = fork()) == -1)
+	else if ((g_pid = fork()) == -1)
 		ft_fprintf(2, "Could not fork\n");
 	else
 	{
-		if (!pid)
-			execve(bin_path, split, env);
-		wait(NULL);
+		(signal(SIGINT, proc_signal_handler) != SIG_ERR && !g_pid) ?
+			execve(bin_path, split, env) :
+			wait(&g_pid);
 	}
 	deltab(split);
 	free(bin_path);
