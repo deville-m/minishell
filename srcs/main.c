@@ -6,7 +6,7 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 11:10:46 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/16 15:43:44 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/02/17 14:33:43 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	**copyenv(void)
 
 int			main(int argc, char **argv)
 {
-	int			eof;
+	int			ret;
 	char		*line;
 	extern char	**g_env;
 
@@ -50,14 +50,14 @@ int			main(int argc, char **argv)
 	{
 		prompt(g_env);
 		signal(SIGINT, signal_handler);
-		eof = !get_next_line(0, &line);
-		if (!(g_env = process_input(line, argv, g_env)))
+		ret = get_next_line(0, &line);
+		if (ret == -1 || !(g_env = process_input(line, argv, g_env)))
 		{
 			free(line);
 			break ;
 		}
 		free(line);
-		if (eof)
+		if (ret == 0)
 			break ;
 	}
 	deltab(g_env);

@@ -6,14 +6,14 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 13:55:00 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/16 15:38:30 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/02/17 14:34:31 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include <unistd.h>
+# include <unistd.h>
 
 int		g_pid;
 char	**g_env;
