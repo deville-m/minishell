@@ -6,7 +6,7 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 14:49:08 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/16 15:08:54 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/02/17 17:46:37 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ char		**process_input(char *input, char **av, char **env)
 
 	if (is_exit(input, env))
 		return (NULL);
-	if (!(split = ft_strsplit(input, ' ')) || !split[0])
+	if ((!(split = ft_strsplit(input, ' ')) || !split[0]) && deltab(split))
 		return (env);
-	if (is_builtin(split, &env))
+	if (is_builtin(split, &env) && deltab(split))
 		return (env);
 	if (!(bin_path = getpath(split[0], env)))
 		ft_fprintf(2, "%s: command not found: %s\n", av[0], split[0]);

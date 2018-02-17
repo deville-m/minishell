@@ -6,7 +6,7 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/14 15:22:31 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/14 15:30:28 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/02/17 17:59:16 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,7 @@ char	**ft_unsetenv(char **env, const char *envname)
 		++i;
 	}
 	newenv[j] = NULL;
+	free(*slot);
+	free(env);
 	return (newenv);
 }

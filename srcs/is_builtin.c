@@ -6,7 +6,7 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 16:02:21 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/14 18:20:48 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/02/17 18:04:19 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	is_builtin(char **split, char ***env)
 		echo(split);
 	else if (ft_strequ(split[0], "setenv"))
 	{
-		if (split[1] && split[2])
+		if (split[1] && split[2] && !split[3])
 			*env = ft_setenv(*env, split[1], split[2], 1);
 		else if (split[1] && !split[2])
 			*env = ft_setenv(*env, split[1], "", 1);
@@ -29,7 +29,7 @@ int	is_builtin(char **split, char ***env)
 	}
 	else if (ft_strequ(split[0], "unsetenv"))
 	{
-		if (split[1])
+		if (split[1] && !split[2])
 			*env = ft_unsetenv(*env, split[1]);
 		else
 			ft_fprintf(2, "usage: unsetenv envnamen\n");

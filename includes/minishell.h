@@ -6,7 +6,7 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 13:55:00 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/17 14:34:31 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/02/17 17:46:45 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,6 @@ char	*getpath(char *bin_name, char **environ);
 void	prompt(char **env);
 int		is_builtin(char **split, char ***env);
 void	echo(char **split);
-void	deltab(char **tab);
+int		deltab(char **tab);
 
 #endif
