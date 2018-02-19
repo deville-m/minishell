@@ -6,7 +6,7 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 16:29:01 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/14 18:45:13 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/02/19 14:52:35 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,15 @@
 #include "ft_string.h"
 #include "ft_printf.h"
 
-char	*curr_dir(char *bin_name)
+static char	*absolute(char *bin_name)
+{
+	if (!access(bin_name, F_OK))
+		return (ft_strdup(bin_name));
+	else
+		return (NULL);
+}
+
+static char	*curr_dir(char *bin_name)
 {
 	char *tmp;
 
@@ -27,7 +35,7 @@ char	*curr_dir(char *bin_name)
 	return (NULL);
 }
 
-char	*find_bin(char *bin_name, char **split)
+static char	*find_bin(char *bin_name, char **split)
 {
 	size_t	i;
 	char	*tmp;
@@ -45,13 +53,15 @@ char	*find_bin(char *bin_name, char **split)
 	return (NULL);
 }
 
-char	*getpath(char *bin_name, char **env)
+char		*getpath(char *bin_name, char **env)
 {
 	char	**split;
 	char	*path;
 
 	if (!bin_name)
 		return (NULL);
+	if (*bin_name == '/')
+		return (absolute(bin_name));
 	if (!(path = ft_getenv("PATH", env)))
 		return (NULL);
 	if (!*path)
