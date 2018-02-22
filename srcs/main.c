@@ -6,12 +6,13 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 11:10:46 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/17 14:33:43 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/02/22 01:01:44 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
+#include <signal.h>
 #include "minishell.h"
 #include "ft_printf.h"
 #include "get_next_line.h"

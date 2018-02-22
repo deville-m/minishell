@@ -6,10 +6,12 @@
 /*   By: mdeville <mdeville@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 14:49:08 by mdeville          #+#    #+#             */
-/*   Updated: 2018/02/20 21:14:46 by mdeville         ###   ########.fr       */
+/*   Updated: 2018/02/22 00:59:18 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <sys/types.h>
+#include <sys/wait.h>
 #include <signal.h>
 #include <unistd.h>
 #include <stdlib.h>
